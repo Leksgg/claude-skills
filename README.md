@@ -8,6 +8,8 @@ Skills propias para Claude Code, escritas y revisadas aquí.
 | --- | --- | --- |
 | [caveman](skills/caveman/SKILL.md) | Respuestas mínimas, sin verborrea. Niveles `lite`, `full` (por defecto) y `ultra`. Se mantiene hasta que lo desactives. | `/caveman`, `/caveman ultra`, `/caveman off` |
 | [reuse-first](skills/reuse-first/SKILL.md) | Antes de escribir código nuevo, busca en el repo qué se puede reutilizar o extender y qué dependencias ya lo resuelven. Evita duplicar sin forzar reutilizaciones malas. | Automática al crear código; `/reuse-first [qué vas a construir]` |
+| [security-audit](skills/security-audit/SKILL.md) | Auditoría de seguridad del repo o de los cambios de una rama: verifica cada hallazgo con su ruta de ataque, informe por gravedad y fixes que tú apruebas. Guías para Node/TS, MongoDB, Cloudflare Workers/R2 y React/Next. `npm audit` hace una petición de red. | Solo manual: `/security-audit`, `/security-audit diff [rama-base]`, `/security-audit <ruta>` |
+| [secure-coding](skills/secure-coding/SKILL.md) | Checklist breve de seguridad mientras se escribe código sensible (autenticación, permisos, consultas, subidas, secretos, webhooks…). | Automática |
 
 ## Instalar
 
