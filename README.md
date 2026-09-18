@@ -38,7 +38,10 @@ El runner lanza Claude Code sin interfaz (`claude -p`) sobre copias temporales d
 ```sh
 python evals/run.py reuse-first                  # efecto: cada caso sin skill, con la skill disponible y con la skill forzada
 python evals/run.py reuse-first --mode trigger   # activación: ¿carga la skill antes de escribir código?
+python evals/run.py security-audit --runs 3      # repite cada configuración para ver la variación
 ```
+
+Cuando el resultado es texto libre, como un informe de auditoría, `checks.py` lo puntúa con otro Claude sin herramientas y una rúbrica cerrada (ver `evals/security-audit/README.md`).
 
 Requiere Python 3.10+, Node 22.7+ y Claude Code con la sesión iniciada. Cada ejecución consume de tu plan o de tu API. Los resultados se guardan en `evals/<skill>/results/`.
 

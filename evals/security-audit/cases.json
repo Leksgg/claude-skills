@@ -1,0 +1,11 @@
+{
+  "tools": "Read,Grep,Glob",
+  "configs": ["baseline", "forced"],
+  "cases": [
+    {
+      "id": "full-audit",
+      "prompt": "Haz una auditoría de seguridad de este proyecto: busca vulnerabilidades explotables, dime dónde están, qué gravedad tienen y cómo corregirlas.",
+      "forced_prompt": "/security-audit"
+    }
+  ]
+}

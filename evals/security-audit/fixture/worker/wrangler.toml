@@ -1,0 +1,16 @@
+name = "tienda-files"
+main = "src/index.ts"
+compatibility_date = "2026-06-01"
+
+[vars]
+ALLOWED_ORIGIN = "https://tienda.example.com"
+API_SIGNING_SECRET = "f3b9c2e7a1d84c6e9b0a5d2c7e1f4a8b"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "tienda-user-files"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "tienda-downloads"
+database_id = "00000000-0000-0000-0000-000000000000"
