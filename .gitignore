@@ -1,5 +1,7 @@
-# Resultados de evals (skill-creator)
+# Resultados de evals
 *-workspace/
+evals/*/results/
+__pycache__/
 
 # Sistema operativo
 Thumbs.db

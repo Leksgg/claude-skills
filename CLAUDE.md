@@ -7,7 +7,8 @@ Repositorio personal de skills para Claude escritas desde cero. Existe porque mu
 - `skills/<nombre>/SKILL.md` — una carpeta por skill; el nombre de la carpeta = campo `name`.
 - `skills/<nombre>/{scripts,references,assets}/` — opcionales, solo si la skill los necesita.
 - `scripts/install.ps1` — enlaza (junction) cada skill en `~/.claude/skills/`. Editar aquí = cambio inmediato en Claude Code.
-- `<nombre>-workspace/` — resultados de evals; ignorado por git.
+- `evals/run.py` — runner genérico de evals con `claude -p`; ver README.
+- `evals/<nombre>/` — `fixture/` (proyecto con trampas), `cases.json`, `checks.py`. Los resultados (`results/`) no se versionan.
 
 ## Cómo escribir una skill
 
@@ -15,7 +16,8 @@ Repositorio personal de skills para Claude escritas desde cero. Existe porque mu
 - Cuerpo en español, en imperativo, idealmente menos de 200 líneas. Explica el porqué de cada regla en vez de gritar SIEMPRE/NUNCA: el modelo generaliza mejor cuando entiende el objetivo.
 - Incluye ejemplos antes/después cuando la skill cambia un estilo o un formato.
 - Si crece, mueve el detalle a `references/` y enlázalo desde SKILL.md indicando cuándo leerlo.
-- Para crear o iterar con evals, usa la skill `skill-creator`.
+- Si el resultado de la skill es comprobable, añade evals en `evals/<nombre>/`. Cada trampa del fixture debe separar el comportamiento correcto del incorrecto. Valida los checks antes de gastar ejecuciones: con el fixture sin tocar deben fallar y con una solución correcta escrita a mano deben pasar.
+- Los checks prueban comportamiento cuando se pueda (ejecutar la función con Node o Python) y texto solo cuando no haya otra opción.
 - Al terminar: añade la skill a la tabla del README y ejecuta `scripts/install.ps1`.
 
 ## Reglas de seguridad

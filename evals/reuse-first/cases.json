@@ -1,0 +1,51 @@
+{
+  "cases": [
+    {
+      "id": "order-total",
+      "prompt": "En la tabla de pedidos (src/features/orders/OrdersTable.ts) añade una columna \"Total\" con el importe total de cada pedido, formateado como moneda.",
+      "traps": "formatCurrency y calculateOrderTotal ya existen; ProductCard usa formatPriceOld, que está deprecated."
+    },
+    {
+      "id": "order-date",
+      "prompt": "En el detalle del pedido (src/features/orders/OrderDetail.ts) la fecha de creación sale en formato ISO. Muéstrala como dd/MM/yyyy, sin hora.",
+      "traps": "date-fns está instalada y lib/dates.ts tiene formatDateTime (con hora): hay que extenderlo o usar date-fns, no formatear a mano."
+    },
+    {
+      "id": "product-stock",
+      "prompt": "Añade al servicio de productos (src/features/products/products.service.ts) una función para actualizar el stock de un producto con PATCH /products/:id/stock.",
+      "traps": "apiClient no tiene patch: hay que extenderlo en lugar de usar fetch directamente."
+    },
+    {
+      "id": "admin-password",
+      "prompt": "En el alta de administradores (src/features/admin/adminSignup.ts) valida también la contraseña: mínimo 12 caracteres, al menos un número y al menos un símbolo.",
+      "traps": "validateUserPassword se parece pero tiene otras reglas (8 caracteres); reutilizarlo o cambiarlo rompería el alta de clientes."
+    },
+    {
+      "id": "product-slug",
+      "prompt": "Las tarjetas de producto (src/features/products/ProductCard.ts) deben enlazar a /productos/<slug>, donde el slug se genera a partir del nombre del producto: minúsculas, sin acentos ni símbolos y palabras separadas por un guion.",
+      "traps": "No existe nada para slugs: hay que escribirlo nuevo, en código compartido, sin añadir dependencias."
+    }
+  ],
+  "trigger_queries": [
+    { "should_trigger": true, "query": "añade un botón para cancelar un pedido en el detalle del pedido que llame a la API (POST /orders/:id/cancel)" },
+    { "should_trigger": true, "query": "necesito que el detalle del pedido muestre el IVA de cada línea" },
+    { "should_trigger": true, "query": "crea una vista de perfil de administrador que muestre nombre, email y fecha de alta" },
+    { "should_trigger": true, "query": "en la tarjeta de producto muestra el precio con un 10% de descuento cuando el stock sea mayor que 50" },
+    { "should_trigger": true, "query": "añade validación de formato de email en el alta de administradores y en el signup de clientes" },
+    { "should_trigger": true, "query": "crea un servicio de usuarios con funciones para listar, obtener uno y borrar" },
+    { "should_trigger": true, "query": "quiero que la tabla de pedidos muestre cuántos días han pasado desde que se creó cada pedido" },
+    { "should_trigger": true, "query": "los nombres de producto largos rompen la tarjeta, trúncalos a 30 caracteres con puntos suspensivos" },
+    { "should_trigger": true, "query": "haz que el resumen del checkout muestre también el número total de artículos" },
+    { "should_trigger": true, "query": "add a small in-memory cache to getProducts so we hit the API at most once per minute" },
+    { "should_trigger": false, "query": "¿qué hace calculateTax y qué tipo de IVA usa por defecto?" },
+    { "should_trigger": false, "query": "explícame cómo gestiona los errores el apiClient" },
+    { "should_trigger": false, "query": "¿qué dependencias usa este proyecto y para qué sirve cada una?" },
+    { "should_trigger": false, "query": "cambia el texto 'Creado:' por 'Fecha de creación:' en el detalle del pedido" },
+    { "should_trigger": false, "query": "renombra STATUS_LABELS a ORDER_STATUS_LABELS en OrdersTable" },
+    { "should_trigger": false, "query": "actualiza el README explicando la estructura de carpetas del proyecto" },
+    { "should_trigger": false, "query": "sube zod a ^3.24.0 en package.json" },
+    { "should_trigger": false, "query": "¿se sigue usando formatPriceOld en algún sitio?" },
+    { "should_trigger": false, "query": "cambia el IVA por defecto de calculateTax del 21% al 10%" },
+    { "should_trigger": false, "query": "resume en tres líneas qué hace este proyecto" }
+  ]
+}
