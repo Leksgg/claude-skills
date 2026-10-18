@@ -1,0 +1,6 @@
+{
+  "name": "fixture-api",
+  "private": true,
+  "type": "commonjs",
+  "dependencies": { "express": "^4.19.0", "mongoose": "^8.0.0" }
+}

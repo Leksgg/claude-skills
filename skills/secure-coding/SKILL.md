@@ -42,11 +42,15 @@ Mientras escribes código sensible, repasa solo los puntos de esta lista que afe
 **Errores, logs y límites**
 - Sin stack traces ni errores de la BD en las respuestas. No loguees contraseñas, tokens ni el body completo.
 - Rate limiting en login, registro, reset, OTP y endpoints caros.
-- Webhooks: verifica la firma sobre el body crudo.
+- Webhooks: verifica la firma sobre el body crudo y considera replay e idempotencia (ids de evento ya procesados).
+- Operaciones con sesión por cookie: evalúa CSRF. Autorización siempre en servidor y por tenant; ocultar un botón no es control.
+- No abras archivos locales de credenciales para hacer esta comprobación.
 
 ## Problemas fuera de tu cambio
 
 Si ves una vulnerabilidad en código que no estás tocando, avisa en una línea con ubicación y gravedad estimada. No la arregles por tu cuenta: amplía el cambio sin que el usuario lo haya pedido.
+
+Prueba además el caso de abuso relevante (otro usuario, otro tenant, valor fuera de rango), no solo el flujo válido.
 
 ## Informa en una línea
 

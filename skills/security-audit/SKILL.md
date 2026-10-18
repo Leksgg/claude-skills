@@ -30,6 +30,7 @@ Antes de buscar fallos, entiende qué hay que proteger y por dónde se entra. Re
   - MongoDB/Mongoose → `references/mongodb.md`
   - Cloudflare Workers, R2, KV, D1, Durable Objects → `references/cloudflare.md`
   - React, Next.js, Vite → `references/frontend.md`
+- **Credenciales**: no abras `.env` ni almacenes locales de credenciales ni vuelques variables de entorno. En código o historial versionado, muestra posibles secretos solo enmascarados.
 - **Puntos de entrada**: rutas HTTP, server actions, handlers `fetch` de Workers, webhooks, crons, consumidores de colas, WebSockets, CLIs.
 - **Autenticación**: cómo se identifica al usuario (sesión, JWT, Cloudflare Access, API keys) y dónde se comprueba.
 - **Activos**: datos personales, pagos, secretos, funciones de administración, archivos de usuarios.
