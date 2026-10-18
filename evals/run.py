@@ -11,7 +11,7 @@ Each skill under evals/<skill>/ provides:
   fixture/     project copied to a fresh temp dir for every run
   cases.json   {"cases": [{"id", "prompt", "forced_prompt"?}],
                 "trigger_queries": [{"query", "should_trigger"}],
-                "tools"?: "Read,Grep,Glob", "configs"?: ["baseline", "forced"]}
+                "tools"?: "Read,Grep,Glob", "allowed"?: "Bash(node:*)", "configs"?: ["baseline", "forced"]}
   checks.py    check(case_id, workdir, fixture, final_text) -> [{"name", "passed", "evidence", "kind"}]
                kind: quality | report | recall | bait
 
@@ -73,6 +73,8 @@ def claude_command(config: str, args, tools: str = BASE_TOOLS) -> list[str]:
         cmd += ["--tools", tools, "--disable-slash-commands"]
     else:
         cmd += ["--tools", tools + ",Skill"]
+    if getattr(args, "allowed", None):
+        cmd += ["--allowedTools", args.allowed]
     if args.model:
         cmd += ["--model", args.model]
     return cmd
@@ -280,6 +282,7 @@ def trigger_summary(records) -> str:
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("skill")
+    parser.add_argument("--evals-dir", help="folder holding <skill>/ evals when they live outside this repo (e.g. private skills)")
     parser.add_argument("--mode", choices=("effect", "trigger"), default="effect")
     parser.add_argument("--cases", nargs="*", help="case ids (effect mode); default: all")
     parser.add_argument("--configs", nargs="*", choices=CONFIGS, help="default: cases.json configs, else all")
@@ -290,10 +293,11 @@ def main():
     parser.add_argument("--model", help="default: the model configured in Claude Code")
     args = parser.parse_args()
 
-    skill_dir = EVALS_DIR / args.skill
+    skill_dir = Path(args.evals_dir).resolve() / args.skill if args.evals_dir else EVALS_DIR / args.skill
     fixture = skill_dir / "fixture"
     spec = json.loads((skill_dir / "cases.json").read_text("utf-8"))
     tools = spec.get("tools", BASE_TOOLS)
+    args.allowed = spec.get("allowed")  # e.g. "Bash(node:*)": permission rules for tools that would otherwise prompt
     configs = args.configs or spec.get("configs") or list(CONFIGS)
     out_dir = skill_dir / "results" / f"{datetime.now():%Y%m%d-%H%M%S}-{args.mode}"
     out_dir.mkdir(parents=True)
