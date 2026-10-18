@@ -1,6 +1,6 @@
 ---
 name: secure-coding
-description: Checklist de seguridad breve para aplicar mientras se escribe o modifica código sensible, sin convertir cada cambio en una auditoría. Úsala siempre que vayas a crear o cambiar código de autenticación, sesiones, permisos, consultas a base de datos, entrada de usuario que acaba en HTML/SQL/shell/rutas/URLs, subida de archivos, secretos o configuración, criptografía, CORS, webhooks o pagos, aunque el usuario no mencione la seguridad. Para auditar un repo o una rama entera se usa /security-audit, no esta skill.
+description: Checklist de seguridad breve para aplicar mientras se escribe o modifica código sensible, sin convertir cada cambio en una auditoría. Úsala siempre que vayas a crear o cambiar endpoints o rutas de API, código de autenticación (login, contraseñas, JWT), sesiones, permisos y roles (acciones de admin, borrar o editar datos de otros), consultas a base de datos, entrada de usuario que acaba en HTML/SQL/shell/rutas/URLs, subida de archivos, secretos o configuración, criptografía, CORS, webhooks o pagos, aunque el usuario no mencione la seguridad. Para auditar un repo o una rama entera se usa /security-audit, no esta skill.
 ---
 
 # Secure coding

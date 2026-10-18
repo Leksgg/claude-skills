@@ -19,15 +19,17 @@ Los checks se validaron antes de gastar ejecuciones: sobre el proyecto sin tocar
 
 ## Último resultado
 
-2026-10-18, una ejecución por caso y configuración:
+2026-10-18, `claude -p`, tres ejecuciones por caso y configuración (9 por columna):
 
 | | Sin skill | `/secure-coding` |
 | --- | --- | --- |
-| Controles de seguridad del código (3 casos) | 12/12 | 12/12 |
-| Idempotencia del webhook (no procesar un reenvío) | 0/1 | 1/1 |
-| Cierra con la línea `Seguridad: …` | 0/3 | 3/3 |
-| Coste medio | $0.06 | $0.14 |
+| Controles de seguridad del código | 33/33 | 33/33 |
+| Idempotencia del webhook (no procesar un reenvío) | 0/3 | 2/3 |
+| Cierra con la línea `Seguridad: …` | 0/9 | 8/9 |
+| Coste medio | $0.06 | $0.12 |
 
-El modelo base ya escribe código seguro en estos tres casos, así que la skill no cambia el código en lo básico. Aporta dos cosas: el reenvío de eventos (idempotencia), que el modelo base omitió, y la línea de seguridad en la entrega. Cuesta más del doble por ejecución, aunque son céntimos.
+El modelo base ya escribe código seguro en estas tres tareas, así que la skill no cambia el código en lo básico. Aporta el reenvío de eventos (idempotencia), que el modelo base omitió siempre, y el resumen de seguridad en la entrega, a cambio de duplicar un coste que son céntimos.
 
-Limitaciones: n=1 por celda, así que la idempotencia puede ser azar; para afirmarlo hacen falta más ejecuciones (`--runs 3`). La primera versión del caso `file-download` era ambigua con la ruta de montaje y se corrigió.
+Disparo automático (`--mode trigger`): con la primera descripción acertó 10 de 12; fallaban «cambiar contraseña» y «endpoint de admin». Se añadieron endpoints, login, contraseñas y roles a la descripción y ahora acierta 12 de 12 (6 que deben cargarla, 6 que no).
+
+Limitaciones: pocas ejecuciones, una sola fixture y un solo lenguaje. En Windows, `run.py` imprime el resumen con `✓` y falla con la consola cp1252: ejecútalo con `PYTHONIOENCODING=utf-8`.
