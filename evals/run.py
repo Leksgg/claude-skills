@@ -14,6 +14,7 @@ Each skill under evals/<skill>/ provides:
                 "tools"?: "Read,Grep,Glob", "allowed"?: "Bash(node:*)", "configs"?: ["baseline", "forced"]}
   checks.py    check(case_id, workdir, fixture, final_text) -> [{"name", "passed", "evidence", "kind"}]
                kind: quality | report | recall | bait
+               (set USE_ALL_TEXT = True in checks.py to receive every assistant text block, not just the last message)
 
 Configs:
   baseline  skills disabled
@@ -142,7 +143,10 @@ def summarize(events, skill) -> dict:
             if tu.get("name") in WRITE_TOOLS:
                 info["wrote"] = True
     result = next((e for e in reversed(events) if e.get("type") == "result"), {})
+    texts = [block.get("text", "") for e in events if e.get("type") == "assistant"
+             for block in (e.get("message", {}).get("content") or []) if isinstance(block, dict) and block.get("type") == "text"]
     info.update({
+        "all_text": chr(10).join(t for t in texts if t.strip()),
         "final_text": result.get("result") or "",
         "result_subtype": result.get("subtype"),
         "cost_usd": result.get("total_cost_usd"),
@@ -195,7 +199,7 @@ def effect_job(skill, case, config, run_no, args, tools, out_dir, fixture, check
             info["skill_loaded"] = info["skill_before_write"] = True
         (run_dir / "diff.patch").write_text(tree_diff(fixture, workdir), "utf-8")
         record = {"case": case["id"], "config": config, "run": run_no, "timed_out": timed_out, **info,
-                  "checks": checks.check(case["id"], workdir, fixture, info["final_text"])}
+                  "checks": checks.check(case["id"], workdir, fixture, info["all_text"] if getattr(checks, "USE_ALL_TEXT", False) else info["final_text"])}
         (run_dir / "result.json").write_text(json.dumps(record, indent=2, ensure_ascii=False), "utf-8")
         return record
     finally:
